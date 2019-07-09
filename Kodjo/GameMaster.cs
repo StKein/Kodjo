@@ -26,7 +26,16 @@ namespace Kodjo
 			string[] input = _input.Split(' ');
 			switch( input[0] ){
 				case Commands.NEW_GAME:
-					this.Game = new Game(4);
+					int size = 4;
+					if( input.Length >= 2 ){
+						int.TryParse( input[1], out size );
+						if( size < 2 ){
+							size = 4;
+						} else if( size % 2 == 1 ){
+							size++;
+						}
+					}
+					this.Game = new Game( size );
 					Console.WriteLine( Messages.NEW_GAME );
 					this.printGameField();
 					Console.WriteLine( Messages.MOVE );
