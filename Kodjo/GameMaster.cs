@@ -6,97 +6,91 @@ namespace Kodjo
 	public class GameMaster
 	{
 		private Game Game;
+		private ContentMaster ContentMaster;
+		
+		const int DEFAULT_GAME_SIZE = 4;
+		
 		
 		public GameMaster()
 		{
-			Console.WriteLine( Messages.GREETING );
-			Console.WriteLine( Messages.GUIDE );
+			this.ContentMaster = new ContentMaster();
+			this.ContentMaster.printPage();
 		}
 		
+		
 		public void processInput( string _input ){
-			Console.Clear();
+			this.ContentMaster.clearContent();
 			if( _input == "" ){
-				if( this.Game == null || !this.Game.IsActive ){
-					Console.WriteLine( Messages.GUIDE );
-				} else {
-					Console.WriteLine( Messages.MOVE );
-				}
+				this.ContentMaster.setHeader("");
+				this.ContentMaster.printPage();
 				return;
 			}
 			string[] input = _input.Split(' ');
 			switch( input[0] ){
 				case Commands.NEW_GAME:
-					int size = 4;
-					if( input.Length >= 2 ){
-						int.TryParse( input[1], out size );
-						if( size < 2 ){
-							size = 4;
-						} else if( size % 2 == 1 ){
-							size++;
-						}
-					}
-					this.Game = new Game( size );
-					Console.WriteLine( Messages.NEW_GAME );
-					this.printGameField();
-					Console.WriteLine( Messages.MOVE );
+					this.startGame( input );
+					this.ContentMaster.setHeader( Headers.NEW_GAME );
+					this.ContentMaster.setPage( Pages.GAME );
+					this.ContentMaster.setGameField( this.Game.GameField );
 					break;
 				case Commands.HELP:
-					Console.WriteLine( Messages.HELP );
+					this.ContentMaster.setHeader( Headers.HELP );
 					break;
 				case Commands.LIST:
-					Console.WriteLine( Messages.LIST );
-					List<string> commands = Commands.CommandsList;
-					for( int i = 0; i < commands.Count; i++ ){
-						Console.WriteLine( commands[i] );
-					}
+					this.ContentMaster.setHeader( Headers.LIST );
 					break;
-				case Commands.PRINT:
-					if( this.Game == null ){
-						Console.WriteLine( Messages.PRINT_NOGAME );
-					} else if( !this.Game.IsActive ){
-						Console.WriteLine( Messages.PRINT_NOACTIVE );
-					} else {
-						this.printGameField();
-					}
+				case Commands.LANGUAGE:
+					this.ContentMaster.setHeader("");
+					string language = ( input.Length >= 2 ) ? input[1].ToLower() : "";
+					this.ContentMaster.setLanguage( language );
 					break;
 				case Commands.EXIT:
-					Console.WriteLine( Messages.FAREWELL );
+					this.ContentMaster.setHeader("");
+					this.ContentMaster.setPage( Pages.EXIT );
 					break;
 				// MOVE
 				default:
-					if( this.Game == null || !this.Game.IsActive ){
-						Console.WriteLine( Messages.GUIDE );
-					} else if( this.Game.validateMove( int.Parse( input[0] ), int.Parse( input[1] ) ) ){
-						this.printGameField();
-						if( this.Game.guessIsCorrect() ){
-							Console.WriteLine( Messages.GUESS_CORRECT );
-							if( this.Game.IsActive ){
-								Console.WriteLine( Messages.MOVE );
-							} else {
-								Console.WriteLine( Messages.WIN );
-							}
-						} else {
-							Console.WriteLine( Messages.GUESS_INCORRECT );
-							Console.WriteLine( Messages.MOVE );
-						}
-					} else {
-						Console.WriteLine( Messages.ERROR );
-					}
+					this.processMove( input );
 					break;
 			}
+			this.ContentMaster.printPage();
 		}
 		
 		
-		private void printGameField(){
-			string[,] field = this.Game.GameField;
-			for( int i = 0; i < field.GetLength(0); i++ ){
-				for( int j = 0; j < field.GetLength(1); j++ ){
-					if( j > 0 ){
-						Console.Write(" ");
-					}
-					Console.Write( field[i,j] );
+		private void startGame( string[] _input ){
+			int size = GameMaster.DEFAULT_GAME_SIZE;
+			if( _input.Length >= 2 ){
+				int.TryParse( _input[1], out size );
+				if( size < 2 ){
+					size = GameMaster.DEFAULT_GAME_SIZE;
+				} else if( size % 2 == 1 ){
+					size++;
 				}
-				Console.WriteLine();
+			}
+			this.Game = new Game( size );
+		}
+		
+		// Input is console input split by " ", from processInput
+		private void processMove( string[] _input ){
+			if( this.Game == null || !this.Game.IsActive || _input == null || _input.Length < 2 ){
+				this.ContentMaster.setHeader( Headers.UNKNOWN_COMMAND );
+			} else {
+				if( this.Game.validateMove( int.Parse( _input[0] ), int.Parse( _input[1] ) ) ){
+					this.ContentMaster.setHeader( Headers.MOVE_CORRECT );
+					this.ContentMaster.setGameField( this.Game.GameField );
+					if( this.Game.guessIsCorrect() ){
+						if( this.Game.IsActive ){
+							this.ContentMaster.setPage( Pages.GAME_GUESS_CORRECT );
+						} else {
+							this.ContentMaster.setPage( Pages.GAME_WIN );
+						}
+					} else {
+						this.ContentMaster.setPage( Pages.GAME_GUESS_INCORRECT );
+					}
+				} else {
+					this.ContentMaster.setHeader( Headers.MOVE_INCORRECT );
+					this.ContentMaster.setPage( Pages.GAME );
+				}
 			}
 		}
 	}

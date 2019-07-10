@@ -5,59 +5,53 @@ namespace Kodjo{
 	
 	internal static class Commands{
 		public const string NEW_GAME = "start";
-		public const string PRINT = "print";
 		public const string HELP = "help";
 		public const string LIST = "ls";
+		public const string LANGUAGE = "lang";
 		public const string EXIT = "exit";
-		
-		public static List<string> CommandsList{
-			get{
-				List<string> list = new List<string>();
-				foreach( var constant in typeof( Commands ).GetFields() ){
-					if( constant.IsLiteral && !constant.IsInitOnly ){
-						list.Add((string)constant.GetValue(null));
-					}
-				}
-				
-				return list;
-			}
-		}
 	}
 	
-	internal static class Messages{
-		public const string GREETING = 
-			"Guten tag and welcome to Kodjo 1.01!";
-		public const string GUIDE = 
-			"To start a new game, enter \"start\" (without quotes). " + 
-			"To see a list of available commands, enter \"ls\".";
-		public const string NEW_GAME = 
-			"Started a new  game. Good luck!";
-		public const string HELP = 
-			"Your goal is to clear the field by opening " + 
-			"pairs of the same items, one pair per move. " + 
-			"To open a pair of items, enter their respective IDs, " + 
-			"separated by space. To see remaining items and theid IDS, " + 
-			"enter \"print\" (without quotes).";
-		public const string MOVE = 
-			"Enter your next move.";
-		public const string GUESS_CORRECT = 
-			"Items match! Well done.";
-		public const string GUESS_INCORRECT = 
-			"Items don't match.";
-		public const string ERROR = 
-			"Incorrect move. Please enter two IDs of remaining items, " + 
-			"separated by space. If you want to see remaining items, " + 
-			"enter \"print\" (without quotes).";
-		public const string WIN = 
-			"You won the game. Congratulations! Feel free to start a new one.";
-		public const string LIST = 
-			"Available commands:";
-		public const string PRINT_NOGAME = 
-			"Nothing to print. Enter \"start\" to start a new game first!";
-		public const string PRINT_NOACTIVE = 
-			"You've won this game. Enter \"start\" to start a new one!";
-		public const string FAREWELL = 
-			"Au revoir! Come back any time.";
+	internal static class Languages{
+		public const string ENGLISH = "English";
+		public const string RUSSIAN = "Russian";
+	}
+	
+	internal static class Headers{
+		public const string NEW_GAME = "ng";
+		public const string HELP = "help";
+		public const string LIST = "ls";
+		public const string MOVE_CORRECT = "";
+		public const string MOVE_INCORRECT = "move_i";
+		public const string UNKNOWN_COMMAND = "duh";
+	}
+	
+	internal static class Pages{
+		public const string INDEX = "index";
+		public const string GAME = "game";
+		public const string GAME_GUESS_CORRECT = "game_gut";
+		public const string GAME_GUESS_INCORRECT = "game_ngut";
+		public const string GAME_WIN = "game_booyah";
+		public const string GAME_LOSE = "game_shit";
+		public const string EXIT = "exit";
+	}
+	
+	internal static class Texts{
+		public const string GREETING = "greeting";
+		public const string GUIDE = "guide";
+		public const string NEW_GAME = "new_game";
+		public const string HELP = "help";
+		public const string MOVE = "move";
+		public const string GUESS_CORRECT = "guess_correct";
+		public const string GUESS_INCORRECT = "guess_incorrect";
+		public const string MOVE_INCORRECT = "move_incorrect";
+		public const string LOSE = "lose";
+		public const string WIN = "win";
+		public const string LIST = "list";
+		public const string LIST_PS = "list_ps";
+		public const string LANGUAGE_ALREADY_SET = "language_already_set";
+		public const string LANGUAGE_SET = "language_set";
+		public const string UNKNOWN_COMMAND = "duh";
+		public const string FAREWELL = "farewell";
 	}
 	
 }
