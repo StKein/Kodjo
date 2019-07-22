@@ -1,7 +1,0 @@
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\obj\Debug\Kodjo.csprojResolveAssemblyReference.cache
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\bin\Debug\Kodjo.exe.config
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\bin\Debug\Kodjo.exe
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\bin\Debug\Kodjo.pdb
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\obj\Debug\Kodjo.exe
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\obj\Debug\Kodjo.pdb
-C:\Users\gloom\OneDrive\Документы\SharpDevelop Projects\Kodjo\Kodjo\bin\Debug\NUnit.Framework.dll
